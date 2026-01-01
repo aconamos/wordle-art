@@ -57,7 +57,6 @@ function updateSquare(id: number) {
 
 function updateModel() {
   const toSet = getPatternsFromSquares().map((pattern) => {
-    console.log(pattern)
     return bdot.value[pattern] ?? []
   })
 
