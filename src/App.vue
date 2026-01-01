@@ -11,8 +11,7 @@ function onInput(input: string) {
     return
   }
 
-  word.value = input
-  console.log(input)
+  word.value = input.toLowerCase()
 }
 </script>
 
