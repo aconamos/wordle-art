@@ -20,12 +20,15 @@ function onInput(input: string) {
   <header>Wordle Art</header>
 
   <main>
+    <div>
+      <label>word: </label>
+      <input type="text" :value="word" @input="(event) => onInput((event.target as HTMLInputElement).value)" />
+    </div>
     <div id="big-container">
       <WordleBoard :target-word="word" v-model="answersList" />
       <div class="v-divider" />
       <AnswerDisplay :answers-list="answersList" />
     </div>
-    <input type="text" :value="word" @input="(event) => onInput((event.target as HTMLInputElement).value)" />
   </main>
 </template>
 
@@ -40,5 +43,26 @@ function onInput(input: string) {
   width: 1px;
   margin: 0 16px;
   background-color: var(--color-border);
+}
+
+header {
+  font-size: xx-large;
+  border-bottom: 2px solid var(--color-border);
+  margin-bottom: 1rem;
+}
+
+input {
+  font-size: large;
+  margin: 4px;
+  background: var(--color-background);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+label {
+  font-size: large;
+  margin-left: 4px;
 }
 </style>
