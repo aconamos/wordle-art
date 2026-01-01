@@ -17,7 +17,7 @@ function onInput(input: string) {
 </script>
 
 <template>
-  <header>Wordle Art</header>
+  <header>Wordle Art Generator</header>
 
   <main>
     <div>
