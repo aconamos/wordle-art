@@ -4,6 +4,16 @@ import AnswerDisplay from './components/AnswerDisplay.vue'
 import WordleBoard from './components/WordleBoard.vue'
 
 const answersList: Ref<string[][]> = ref([])
+const word: Ref<string> = ref('')
+
+function onInput(input: string) {
+  if (input.length !== 5) {
+    return
+  }
+
+  word.value = input
+  console.log(input)
+}
 </script>
 
 <template>
@@ -11,10 +21,11 @@ const answersList: Ref<string[][]> = ref([])
 
   <main>
     <div id="big-container">
-      <WordleBoard target-word="among" v-model="answersList" />
+      <WordleBoard :target-word="word" v-model="answersList" />
       <div class="v-divider" />
       <AnswerDisplay :answers-list="answersList" />
     </div>
+    <input type="text" :value="word" @input="(event) => onInput((event.target as HTMLInputElement).value)" />
   </main>
 </template>
 

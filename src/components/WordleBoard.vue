@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getPatternMask, product } from '@/lib/computation'
-import { ref, type Ref } from 'vue'
+import { computed, ref, watch, type ComputedRef, type Ref } from 'vue'
 import wordsRaw from '@/data/allowed_words.txt?raw'
 
 const words = wordsRaw.split('\n').map((w) => w.trim())
@@ -26,19 +26,28 @@ const permutations = product(
   ['x', '.', 'y'],
 ).map((arr) => arr.join(''))
 
-const wordsWithMasks = words.map((word) => [getPatternMask(word, targetWord), word])
+const wordsWithMasks = computed(() => {
+  return words.map((word) => [getPatternMask(word, targetWord), word])
+})
 
-const bdot: {
+const bdot: ComputedRef<{
   [key: string]: string[]
-} = {}
+}> = computed(() => {
+  return {}
+})
 
-for (const permutation of permutations) {
-  // This cast is safe because we already filter away all undefineds as permutation is
-  // never undefined
-  const entries = wordsWithMasks.filter((w) => w[0] === permutation).map((w) => w[1]) as string[]
+watch(wordsWithMasks, () => {
+  for (const permutation of permutations) {
+    // This cast is safe because we already filter away all undefineds as permutation is
+    // never undefined
+    const entries = wordsWithMasks.value
+      .filter((w) => w[0] === permutation)
+      .map((w) => w[1]) as string[]
 
-  bdot[permutation] = entries
-}
+    bdot.value[permutation] = entries
+  }
+  updateModel()
+})
 
 function updateSquare(id: number) {
   squares.value[id]!.filled = !squares.value[id]?.filled
@@ -47,7 +56,12 @@ function updateSquare(id: number) {
 }
 
 function updateModel() {
-  model.value = getPatternsFromSquares().map((pattern) => bdot[pattern] ?? [])
+  const toSet = getPatternsFromSquares().map((pattern) => {
+    console.log(pattern)
+    return bdot.value[pattern] ?? []
+  })
+
+  model.value = toSet
 }
 
 function clearSquares() {
