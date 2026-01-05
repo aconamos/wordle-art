@@ -77,6 +77,8 @@ function clearSquares() {
   for (const square of squares.value) {
     square.state = "."
   }
+
+  updateModel()
 }
 
 function getPatternsFromSquares(): string[] {
