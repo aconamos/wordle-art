@@ -13,7 +13,7 @@ const model = defineModel<string[][]>({ default: [[], [], [], [], [], []] })
 
 type Square = {
   id: number
-  filled: boolean
+  state: "." | "x" | "y"
 }
 
 const squares: Ref<Square[]> = ref([])
@@ -50,7 +50,17 @@ watch(wordsWithMasks, () => {
 })
 
 function updateSquare(id: number) {
-  squares.value[id]!.filled = !squares.value[id]?.filled
+  switch (squares.value[id]!.state) {
+    case ".":
+      squares.value[id]!.state = "x"
+      break
+    case "x":
+      squares.value[id]!.state = "y"
+      break
+    case "y":
+      squares.value[id]!.state = "."
+      break
+  }
 
   updateModel()
 }
@@ -65,7 +75,7 @@ function updateModel() {
 
 function clearSquares() {
   for (const square of squares.value) {
-    square.filled = false
+    square.state = "."
   }
 }
 
@@ -76,11 +86,7 @@ function getPatternsFromSquares(): string[] {
     let pattern = ''
 
     for (let j = 0; j < 5; j++) {
-      if (squares.value[i * 5 + j]?.filled) {
-        pattern += 'x'
-      } else {
-        pattern += '.'
-      }
+      pattern += squares.value[i * 5 + j]!.state
     }
 
     ret.push(pattern)
@@ -89,8 +95,19 @@ function getPatternsFromSquares(): string[] {
   return ret
 }
 
+function getSquareClass(state: "x" | "y" | "."): string {
+  switch (state) {
+    case ".":
+      return ""
+    case "x":
+      return "green-square"
+    case "y":
+      return "yellow-square"
+  }
+}
+
 for (let i = 0; i < 30; i++) {
-  squares.value.push({ id: i, filled: i % 3 == 0 })
+  squares.value.push({ id: i, state: i % 3 == 0 ? "x" : "." })
 }
 
 updateModel()
@@ -99,7 +116,7 @@ updateModel()
 <template>
   <div>
     <div id="board-box">
-      <div v-for="square in squares" class="square" :key="square.id" :class="square.filled ? 'filled-square' : ''"
+      <div v-for="square in squares" class="square" :key="square.id" :class="getSquareClass(square.state)"
         @click.prevent="() => updateSquare(square.id)"></div>
     </div>
 
@@ -122,8 +139,12 @@ updateModel()
   transition: 0.08s ease-out;
 }
 
-.filled-square {
+.green-square {
   background-color: var(--green-highlight);
+}
+
+.yellow-square {
+  background-color: var(--yellow-highlight);
 }
 
 button {

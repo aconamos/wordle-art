@@ -22,6 +22,8 @@
 
   --green-highlight: hsla(160, 100%, 37%, 1);
   --green-lowlight: hsla(160, 100%, 37%, 0.2);
+
+  --yellow-highlight: #b59f3b;
 }
 
 /* semantic color variables for this project */
