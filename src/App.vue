@@ -28,6 +28,14 @@ function onInput(input: string) {
       <div class="v-divider" />
       <AnswerDisplay :answers-list="answersList" />
     </div>
+    <div class="h-divider" />
+    <div id="instructions">
+      <h2>Instructions</h2>
+      <p>
+        This tool lets you select square patterns, input a five letter word, and get words where the color of the wordle
+        feedback matches the drawn pattern.
+      </p>
+    </div>
   </main>
 </template>
 
@@ -41,6 +49,13 @@ function onInput(input: string) {
   min-height: 100%;
   width: 1px;
   margin: 0 16px;
+  background-color: var(--color-border);
+}
+
+.h-divider {
+  max-height: 1px;
+  height: 1px;
+  margin: 16px 16px;
   background-color: var(--color-border);
 }
 
