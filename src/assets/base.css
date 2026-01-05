@@ -20,7 +20,8 @@
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
-  --green-highlight: hsla(160, 100%, 37%, 1);
+  /* --green-highlight: hsla(160, 100%, 37%, 1); */
+  --green-highlight: #538d4e;
   --green-lowlight: hsla(160, 100%, 37%, 0.2);
 
   --yellow-highlight: #b59f3b;
