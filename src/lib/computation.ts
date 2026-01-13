@@ -35,15 +35,36 @@ export function product<T>(...arrays: T[][]): T[][] {
 export function getPatternMask(given_word: string, target_word: string): string {
   const given_letters = [...given_word]
   const target_letters = [...target_word]
+  let green_mask = ''
+  let yellow_mask = ''
+
+  // green loop
+  for (const [target, given] of zip(target_letters, given_letters)) {
+    if (given === target) {
+      green_mask += 'x'
+      removeByValue(target_letters, given)
+    } else {
+      green_mask += '.'
+    }
+  }
+
+  // yellow loop
+  for (const letter of given_letters) {
+    if (target_letters.includes(letter)) {
+      yellow_mask += 'y'
+      removeByValue(target_letters, letter)
+    } else {
+      yellow_mask += '.'
+    }
+  }
+
   let mask = ''
 
-  for (const [given, target] of zip(given_letters, target_letters)) {
-    if (given === target) {
+  for (let i = 0; i < 5; i++) {
+    if (green_mask[i] === 'x') {
       mask += 'x'
-      removeByValue(target_letters, given)
-    } else if (target_letters.includes(given!)) {
+    } else if (yellow_mask[i] === 'y') {
       mask += 'y'
-      removeByValue(target_letters, given)
     } else {
       mask += '.'
     }
